@@ -65,7 +65,7 @@ def writecommand(ser, command, prompt, verbose):
                         print("Prompt not received. Instead received '" + buf + "'")
                 return False
 
-def memwrite(ser, path, size, start_addr, verbose, debug):
+def memwrite(ser, path, size, start_addr, verbose, big_endian, debug):
         
         if not debug:
                 prompt = getprompt(ser, start_addr, verbose)
@@ -105,7 +105,11 @@ def memwrite(ser, path, size, start_addr, verbose, debug):
                 while (len(read_bytes) < 4):
                         read_bytes += b'\x00'
 
-                (val, ) = struct.unpack(">L", read_bytes)
+                if big_endian:
+                        (val, ) = struct.unpack(">L", read_bytes)
+                else:
+                        (val, ) = struct.unpack("<L", read_bytes)
+
                 read_bytes = "".format(val)
 
                 str_to_write = "mw {0:08x} {1:08x}".format(addr, val)
@@ -149,6 +153,7 @@ def main():
         optparser.add_option("--write", dest = "write", help = "write mem from file", metavar = "path")
         optparser.add_option("--addr", dest = "addr", help = "mem address", default = "0x80500000", metavar = "addr")
         optparser.add_option("--size", dest = "size", help = "# bytes to write", default = "0", metavar = "size")
+        optparser.add_option("--big", dest = "big_endian", help = "target is big-endian (default little-endian)", default = "0", metavar = "big_endian")
         (options, args) = optparser.parse_args()
         if (len(args) != 0):
                 optparser.error("incorrect number of arguments")
@@ -166,7 +171,7 @@ def main():
                 return
 
         if options.write:
-                memwrite(ser, options.write, int(options.size, 0), int(options.addr, 0), options.verbose, debug)
+                memwrite(ser, options.write, int(options.size, 0), int(options.addr, 0), options.verbose, options.big_endian, debug)
         return
 
 if __name__ == '__main__':
