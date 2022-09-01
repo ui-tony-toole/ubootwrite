@@ -20,7 +20,7 @@ LINE_FEED = "\n"
 def getprompt(ser, addr, verbose):
 
         # Send a command who does not produce a result so when receiving the next line feed, only show the prompt will be returned
-        ser.write("mw {0:08x} 0".format(addr) + LINE_FEED)
+        ser.write(str.encode("mw {0:08x} 0".format(addr) + LINE_FEED))
         # Flushing read buffer
         while ser.read(256):
                 pass
@@ -28,11 +28,11 @@ def getprompt(ser, addr, verbose):
                 print("Waiting for a prompt...")
         while True:
                 # Write carriage return and wait for a response
-                ser.write(LINE_FEED)
+                ser.write(str.encode(LINE_FEED))
                 # Read the response
                 buf = ser.read(256);
                 if (buf.endswith(b"> ") or buf.endswith(b"# ")):
-                        print("Prompt is '" + buf[2:] + "'")
+                        print("Prompt is '" + buf[2:].decode() + "'")
                         # The prompt returned starts with a line feed. This is the echo of the line feed we send to get the prompt.
                         # We keep this linefeed
                         return buf
@@ -45,11 +45,11 @@ def getprompt(ser, addr, verbose):
 def writecommand(ser, command, prompt, verbose):
 
         # Write the command and a line feed, so we must get back the command and the prompt
-        ser.write(command + LINE_FEED)
+        ser.write(str.encode(command + LINE_FEED))
         buf = ser.read(len(command))
-        if (buf != command):
+        if (buf.decode() != command):
                 if verbose:
-                        print("Echo command not received. Instead received '" + buf + "'")
+                        print("Echo command not received. Instead received '" + buf.decode() + "'")
                 return False
 
         if verbose:
