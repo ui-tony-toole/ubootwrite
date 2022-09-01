@@ -121,9 +121,9 @@ def memwrite(ser, path, size, start_addr, verbose, debug):
                         # Print progress
                         currentTime = time.time();
                         if ((currentTime - startTime) > 1):
-                                print("\rProgress {:2.1f}%".format((bytes_read * 100) / size))
-                                print(", {:3.1f}kb/s".format(bytesLastSecond / (currentTime - startTime) / 1024))
-                                print(", ETA {0}s   ".format(round((size - bytes_read) / bytesLastSecond / (currentTime - startTime))))
+                                print("\rProgress {:2.1f}%".format((bytes_read * 100) / size), end = '')
+                                print(", {:3.1f}kb/s".format(bytesLastSecond / (currentTime - startTime) / 1024), end = '')
+                                print(", ETA {0}s   ".format(round((size - bytes_read) / bytesLastSecond / (currentTime - startTime))), end = '')
                                 bytesLastSecond = 0
                                 startTime = time.time();
 
