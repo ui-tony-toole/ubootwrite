@@ -7,10 +7,7 @@ import struct
 import sys
 import zlib
 import time
-
-debug = False
-if not debug:
-        import serial
+import serial
 
 # The maximum size to transfer if we can determinate the size of the file (if input data comes from stdin).
 MAX_SIZE = 2 ** 30
@@ -65,10 +62,9 @@ def writecommand(ser, command, prompt, verbose):
                         print("Prompt not received. Instead received '" + buf + "'")
                 return False
 
-def memwrite(ser, path, size, start_addr, verbose, big_endian, debug):
+def memwrite(ser, path, size, start_addr, verbose, big_endian):
         
-        if not debug:
-                prompt = getprompt(ser, start_addr, verbose)
+        prompt = getprompt(ser, start_addr, verbose)
         
         if (path == "-"):
                 fd = sys.stdin
@@ -115,21 +111,19 @@ def memwrite(ser, path, size, start_addr, verbose, big_endian, debug):
                 str_to_write = "mw {0:08x} {1:08x}".format(addr, val)
                 if verbose:
                         print("Writing:" + str_to_write + "at:", "0x{0:08x}".format(addr))
-                if debug:
-                        str_to_write = struct.pack(">L", int("{0:08x}".format(val), 16))
-                else:
-                        if not writecommand(ser, str_to_write, prompt, verbose):
-                                print("Found an error, so aborting")
-                                fd.close()
-                                return
-                        # Print progress
-                        currentTime = time.time();
-                        if ((currentTime - startTime) > 1):
-                                print("\rProgress {:2.1f}%".format((bytes_read * 100) / size), end = '')
-                                print(", {:3.1f}kb/s".format(bytesLastSecond / (currentTime - startTime) / 1024), end = '')
-                                print(", ETA {0}s   ".format(round((size - bytes_read) / bytesLastSecond / (currentTime - startTime))), end = '')
-                                bytesLastSecond = 0
-                                startTime = time.time();
+
+                if not writecommand(ser, str_to_write, prompt, verbose):
+                        print("Found an error, so aborting")
+                        fd.close()
+                        return
+                # Print progress
+                currentTime = time.time();
+                if ((currentTime - startTime) > 1):
+                        print("\rProgress {:2.1f}%".format((bytes_read * 100) / size), end = '')
+                        print(", {:3.1f}kb/s".format(bytesLastSecond / (currentTime - startTime) / 1024), end = '')
+                        print(", ETA {0}s   ".format(round((size - bytes_read) / bytesLastSecond / (currentTime - startTime))), end = '')
+                        bytesLastSecond = 0
+                        startTime = time.time();
 
                 # Increment address
                 addr += 4
@@ -158,20 +152,10 @@ def main():
         if (len(args) != 0):
                 optparser.error("incorrect number of arguments")
 
-        if not debug:
-                ser = serial.Serial(options.serial, 115200, timeout=0.1)
-        else:
-                ser = open(options.write + ".out", "wb")
+        ser = serial.Serial(options.serial, 115200, timeout=0.1)
         
-        if debug:
-                prompt = getprompt(ser, options.verbose)
-                writecommand(ser, "mw 80500000 01234567", prompt, options.verbose)
-                buf = ser.read(256)
-                print("buf = '" + buf + "'")
-                return
-
         if options.write:
-                memwrite(ser, options.write, int(options.size, 0), int(options.addr, 0), options.verbose, options.big_endian, debug)
+                memwrite(ser, options.write, int(options.size, 0), int(options.addr, 0), options.verbose, options.big_endian)
         return
 
 if __name__ == '__main__':
