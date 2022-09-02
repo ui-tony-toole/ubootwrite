@@ -141,7 +141,7 @@ def memwrite(ser, path, size, start_addr, verbose, big_endian):
         return
 
 def main():
-        optparser = OptionParser("usage: %prog [options]", version = "%prog 0.2")
+        optparser = OptionParser("usage: %prog [options]", version = "%prog 0.3")
         optparser.add_option("--verbose", action = "store_true", dest = "verbose", help = "be verbose", default = False)
         optparser.add_option("--serial", dest = "serial", help = "specify serial port", default = "/dev/ttyUSB0", metavar = "dev")
         optparser.add_option("--write", dest = "write", help = "write mem from file", metavar = "path")
