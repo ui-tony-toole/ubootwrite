@@ -147,7 +147,7 @@ def main():
         optparser.add_option("--write", dest = "write", help = "write mem from file", metavar = "path")
         optparser.add_option("--addr", dest = "addr", help = "mem address", default = "0x80500000", metavar = "addr")
         optparser.add_option("--size", dest = "size", help = "# bytes to write", default = "0", metavar = "size")
-        optparser.add_option("--big", dest = "big_endian", help = "target is big-endian (default little-endian)", default = "0", metavar = "big_endian")
+        optparser.add_option("--big", action = "store_true", dest = "big_endian", help = "target is big-endian (default little-endian)", default = False)
         (options, args) = optparser.parse_args()
         if (len(args) != 0):
                 optparser.error("incorrect number of arguments")
