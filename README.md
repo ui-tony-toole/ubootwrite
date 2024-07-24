@@ -46,21 +46,31 @@ Note: This process can take a long time. Be patient. Once the data is in RAM, yo
 
 ## MacOS Setup
 
-**Getting up and running on MacOS with Homebrew:**
+### Getting up and running on MacOS with Homebrew
 
 To install `pyserial` via `pip`:
 
-```sh
-# From within a temporary folder, run
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install pyserial
-```
+1. Create a virtual environment:
+    ```sh
+    python3 -m venv venv
+    ```
 
-**Example command:**
+2. Activate the virtual environment:
+    ```sh
+    source venv/bin/activate
+    ```
+
+3. Install `pyserial`:
+    ```sh
+    python3 -m pip install pyserial
+    ```
+
+### Example Command
+
+Run the following command to use `ubootwrite`:
 
 ```sh
-python ubootwrite.py --serial=/dev/cu.usbserial-FT6TUI7Q --write=u-boot.mbn --addr=0x44000000
+python3 ubootwrite.py --serial=/dev/cu.usbserial-FT6TUI7Q --write=u-boot.mbn --addr=0x44000000
 ```
 
 ## FAQ
