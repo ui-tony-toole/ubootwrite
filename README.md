@@ -2,7 +2,7 @@
 
 **ubootwrite** is a simple Python tool that uploads binary images to the RAM of Linux systems running the U-Boot bootloader (e.g., for OpenWRT) via the serial port. It is useful when no alternative transfer methods (XMODEM/TFTP/BOOTM/etc.) are available. Due to converting the binary file to ASCII and sending it in 32-bit chunks, ubootwrite has a high overhead, making the transfer of large amounts of data slow.
 
-The original author is "pgid69", and the source can be found on the [OpenWRT forum](https://forum.openwrt.org/viewtopic.php?pid=183315#p183315). The initial commit is the original version from the forum, and "pgid69" states that the tool is based on [brntool](https://github.com/rvalles/brntool). I made some adjustments for uploading data to the Arcadyan ARV752DPW22 (Easybox 803A) and decided to "fork" the code here as it did not have a permanent home.
+The original author is "pgid69", and the source can be found on the [OpenWRT forum](https://forum.openwrt.org/viewtopic.php?pid=183315#p183315). The initial commit is the original version from the forum, and "pgid69" states that the tool is based on [brntool](https://github.com/rvalles/brntool).
 
 This project was forked from [Paulius Zaleckas' ubootwrite](https://github.com/pauliuszaleckas/ubootwrite).
 
