@@ -30,6 +30,25 @@ Unprotecting flash: ```protect off all```
 Erasing the sectors: ```erase [ADDRESS_IN_FLASH] +[SIZE_OF_DATA]``` (all in hex)
 Copying the data to flash: ```cp.b [RAM_ADRESS] [ADDRESS_IN_FLASH] [SIZE_OF_DATA]``` (all in hex)
 
+## MacOS Setup
+
+**Getting up and running on MacOS with Homebrew:**
+
+To install `pyserial` via `pip`:
+
+```sh
+# From within a temporary folder, run
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install pyserial
+```
+
+**An example command:**
+
+```sh
+python3 ubootwrite.py --serial=/dev/cu.usbserial-FT6TUI7Q --write=u-boot.mbn --addr=0x44000000
+```
+
 FAQ
 ========
 **Q:** I'm on linux and I can not access the serial port somehow...
