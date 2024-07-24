@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
 from __future__ import division #1/2 = float, 1//2 = integer, python 3.0 behaviour in 2.6, to make future port to 3 easier.
 from __future__ import print_function
@@ -110,7 +112,7 @@ def memwrite(ser, path, size, start_addr, verbose, big_endian):
 
                 str_to_write = "mw {0:08x} {1:08x}".format(addr, val)
                 if verbose:
-                        print("Writing:" + str_to_write + "at:", "0x{0:08x}".format(addr))
+                        print("Writing:" + str_to_write + " at:", "0x{0:08x}".format(addr))
 
                 if not writecommand(ser, str_to_write, prompt, verbose):
                         print("Found an error, so aborting")
